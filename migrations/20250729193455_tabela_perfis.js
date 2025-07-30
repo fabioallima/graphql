@@ -5,8 +5,14 @@
 exports.up = function(knex) {
   return knex.schema.createTable('perfis', table => {
     table.increments('id').primary()
-    table.string('nome').notNull().unique()
-    table.string('rotulo').notNull()
+    table.string('nome').notNullable().unique()
+    table.string('rotulo').notNullable()
+  }).then(function () {
+    return knex('perfis').insert([
+        {nome: 'comum', rotulo: 'Comum'},
+        {nome: 'admin', rotulo: 'Administrador'},
+        {nome: 'master', rotulo: 'Master'},
+    ])
   })
 };
 
